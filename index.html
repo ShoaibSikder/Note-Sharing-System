@@ -50,17 +50,16 @@
         <i class='bx bx-arrow-back back-btn' title="Back"></i>
         <div class="login-box">
           <h3>📚 Note Sharing System</h3>
-          <form>
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="example@gmail.com" required />
-            <label for="password">Password?</label>
-            <input type="password" id="password" placeholder="********" required />
+          <form id="admin-login-form">
+            <label for="admin-email">Email</label>
+            <input type="email" id="admin-email" required />
+  
+            <label for="admin-password">Password</label>
+            <input type="password" id="admin-password" required />
+  
             <button type="submit">Login</button>
           </form>
-          <div class="bottom-links">
-            <a href="#">Forgot Password?</a>
-            <button class="Create">Create Account</button>
-          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -95,6 +94,52 @@
       </div>
     </div>
   </section>
+
+<!-- User Registration form -->
+ <section class="User-Register-form" id="User-Register-form">
+    <div class="container">
+      <div class="left-panel">  
+        <div class="notification">
+          <p><strong>Student login</strong><br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit magni, accusantium doloremque cupiditate quisquam!</p>
+        </div>
+        <div class="img">
+          <img src="photos/studentlogin.png" alt="student"/>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <i class='bx bx-arrow-back back-btn' title="Back"></i>
+        <div class="registration-box">
+          <h3>📚 Note Sharing System</h3>
+          <form>
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" placeholder="Your full name" required />
+            <label for="institute">Institute Name</label>
+            <input type="text" id="institute" placeholder="Your institute name" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="example@gmail.com" required />
+            <label for="password">Password?</label>
+            <input type="password" id="password" placeholder="********" required />
+            <button type="submit">Submit</button>
+          </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- POP UP message BOX -->
+  <section class="popup-message" id="popup-message">
+    <div class="popup-content">
+      <p>✅ Registration Complete!</p>
+    </div>
+  </section>
+
+<!-- admin dashboard -->
+  <section class="admin-dashboard" id="admin-dashboard" style="display:none;">
+    <p>This is admin dashboard</p>
+  </section>
+
+
+
 
   <script src="js/script.js"></script>
 </body>
