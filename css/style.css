@@ -10,7 +10,7 @@
 
 :root {
   --bg-color: #ffffff;
-  --second-big-color: #b8b1b1;
+  --second-big-color: #ece4e4;
   --text-color: rgb(0, 0, 0);
   --main-color: #00397a;
 }
@@ -111,39 +111,26 @@ h2{
 
 /* admin and user login */
 
-.Admin-login {
-  background: var(--bg-color);
-  padding: 40px 0;
-}
-
-.Admin-login .container {
-  display: flex;
-  width: 900px;
-  max-width: 100%;
-  height: 500px;
-  background: var(--bg-color);
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin: 0 auto;
-}
-
+.Admin-login,
 .User-login {
   background: var(--bg-color);
   padding: 40px 0;
+  display: none;
 }
 
+.Admin-login .container,
 .User-login .container {
   display: flex;
   width: 900px;
   max-width: 100%;
   height: 500px;
-  background:var(--bg-color);
+  background: var(--bg-color);
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin: 0 auto;
 }
+
 /* Left Side */
 .left-panel {
   width: 50%;
@@ -184,10 +171,16 @@ h2{
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
 }
 
 .login-box {
   width: 100%;
+  position: relative; /* allow absolute child positioning */
+  padding: 40px 20px 20px 20px;
+  background-color:var(--bg-color);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-box form {
@@ -218,6 +211,9 @@ h2{
   font-size: 16px;
   cursor: pointer;
 }
+.login-box button:hover{
+  background: #0e4481;
+}
 
 .bottom-links {
   display: flex;
@@ -230,3 +226,29 @@ h2{
   font-size: 13px;
   color: #1770dd;
 }
+
+.back-btn {
+  position: absolute;
+  top: -20px;     /* move it higher, outside the login-box */
+  right: -20px;   /* move it outside the white container */
+  width: 45px;
+  height: 45px;
+  font-size: 22px;
+  border-radius: 50%;
+  margin: 10px;
+  background-color: var(--main-color);
+  color: var(--bg-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: background-color 0.3s, color 0.3s;
+  z-index: 1000;
+}
+
+.back-btn:hover {
+  background-color: #185099;
+}
+
