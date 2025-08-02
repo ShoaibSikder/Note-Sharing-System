@@ -134,11 +134,63 @@
   </section>
 
 <!-- admin dashboard -->
-  <section class="admin-dashboard" id="admin-dashboard" style="display:none;">
+  <section class="admin-dashboard" id="admin-dashboard">
     <p>This is admin dashboard</p>
   </section>
 
+<!-- User Dashboard -->
+<section class="user-dashboard" id="user-dashboard">
 
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="logo">📚 NoteSharingSystem</div>
+
+    <div class="user-menu">
+      <button class="user-btn" id="user-btn">Welcome, User ▼</button>
+      <div class="user-dropdown">
+        <a href="#" id="profile-link">Profile Details</a>
+        <a href="#" class="logout-btn" id="logout-link">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-bar">
+    <input type="text" placeholder="🔍 Search materials by name, subject, tags...">
+  </div>
+
+  <!-- Overview Boxes -->
+  <div class="overview">
+    <div class="overview-box">
+      <p>🗃️ Uploads</p>
+      <h2 id="uploads-count">0</h2>
+    </div>
+    <div class="overview-box">
+      <p>📥 Downloads</p>
+      <h2 id="downloads-count">0</h2>
+    </div>
+    <div class="overview-box">
+      <p>❤️ Saved Notes</p>
+      <h2 id="saved-notes-count">0</h2>
+    </div>
+  </div>
+
+  <!-- Recently Uploaded Files -->
+  <div class="recent-files">
+    <h3>📚 Recently Uploaded Files</h3>
+    <div class="recent-files-grid" id="recent-files-container">
+      <!-- JS will inject file-card boxes here -->
+    </div>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="dashboard-actions">
+    <button id="upload-btn">✍️ Upload New Note</button>
+    <button id="your-uploads-btn">🗃️ Your Uploads</button>
+    <button id="saved-items-btn">❤️ Saved Items</button>
+  </div>
+
+</section>
 
 
   <script src="js/script.js"></script>
