@@ -134,8 +134,42 @@
   </section>
 
 <!-- admin dashboard -->
-  <section class="admin-dashboard" id="admin-dashboard">
-    <p>This is admin dashboard</p>
+  <section class="admin-dashboard-section" id="admin-dashboard">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="logo">📚 NoteSharingSystem (Admin)</div>
+      <div class="admin-info">
+        <button id="admin-logout">
+          <span>Welcome, Admin</span>
+        </button>
+      </div>
+    </div>
+  
+    <!-- Dashboard Overview -->
+    <section class="admin-overview">
+      <h2>📊 Dashboard Overview</h2>
+      <div class="overview-cards">
+        <div class="card">
+          <h3>📁 Total Uploads</h3>
+          <p id="total-uploads">0</p>
+        </div>
+        <div class="card">
+          <h3>⬇️ Total Downloads</h3>
+          <p id="total-downloads">0</p>
+        </div>
+        <div class="card">
+          <h3>✅ Approvals</h3>
+          <p id="total-approvals">0</p>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Footer Action Buttons -->
+    <footer class="admin-footer">
+      <button class="footer-btn">👁️ View All Users</button>
+      <button class="footer-btn">🗑️ Delete User</button>
+      <button class="footer-btn">🔍 Search User</button>
+    </footer>
   </section>
 
 <!-- User Dashboard -->
@@ -143,7 +177,7 @@
 
   <!-- Top Bar -->
   <div class="top-bar">
-    <div class="logo">📚 NoteSharingSystem</div>
+    <div class="logo">📚 NoteSharingSystem (Students)</div>
 
     <div class="user-menu">
       <button class="user-btn" id="user-btn">Welcome, User ▼</button>

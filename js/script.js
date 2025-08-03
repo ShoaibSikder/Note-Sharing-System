@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Registration form
+  // Registration form submission
   const registrationForm = registerForm.querySelector("form");
   registrationForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
     userLogin.style.display = "block";
   });
 
-  // Admin login
+  // Admin login form submission
   adminLoginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("admin-email").value;
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         popup.classList.remove("show");
         adminLogin.style.display = "none";
-        adminDashboard.style.display = "block";
+        adminDashboard.style.display = "flex";
       }, 2000);
     } else {
       popup.innerText = "❌ Invalid admin credentials!";
@@ -108,12 +108,104 @@ document.addEventListener("DOMContentLoaded", () => {
     adminLoginForm.reset();
   });
 
+  // Admin Dashboard Example Data & Logic
+
+  // Simulated database data
+  const userUploads = [
+    {
+      username: "shoaib",
+      file: "oop_notes.pdf",
+      downloads: 22,
+      approved: true,
+    },
+    {
+      username: "fatima",
+      file: "db_project.docx",
+      downloads: 14,
+      approved: false,
+    },
+    { username: "rahim", file: "ai_ppt.pptx", downloads: 9, approved: true },
+    { username: "salma", file: "math_quiz.pdf", downloads: 6, approved: true },
+    {
+      username: "karim",
+      file: "chemistry_lab.pdf",
+      downloads: 3,
+      approved: false,
+    },
+  ];
+
+  const users = [
+    { id: 1, name: "Shoaib Sikder", email: "shoaib@example.com" },
+    { id: 2, name: "Fatima Akter", email: "fatima@example.com" },
+    { id: 3, name: "Rahim Uddin", email: "rahim@example.com" },
+  ];
+
+  // Update Admin Stats
+  const totalUploads = userUploads.length;
+  const totalDownloads = userUploads.reduce(
+    (acc, item) => acc + item.downloads,
+    0
+  );
+  const totalApprovals = userUploads.filter((item) => item.approved).length;
+
+  document.getElementById("total-uploads").textContent = totalUploads;
+  document.getElementById("total-downloads").textContent = totalDownloads;
+  document.getElementById("total-approvals").textContent = totalApprovals;
+
+  // Admin Logout button
+  const adminLogout = document.getElementById("admin-logout");
+  if (adminLogout) {
+    adminLogout.addEventListener("click", () => {
+      adminDashboard.style.display = "none";
+      homeSection.style.display = "block";
+    });
+  }
+
+  // Footer buttons logic
+  document
+    .querySelector(".footer-btn:nth-child(1)")
+    .addEventListener("click", () => {
+      let message = "📋 All Users:\n\n";
+      users.forEach((user) => {
+        message += `🧑 ${user.name} (${user.email})\n`;
+      });
+      alert(message);
+    });
+
+  document
+    .querySelector(".footer-btn:nth-child(2)")
+    .addEventListener("click", () => {
+      const userId = prompt("Enter User ID to delete:");
+      const found = users.find((user) => user.id == userId);
+      if (found) {
+        alert(
+          `User ${found.name} (ID: ${userId}) deleted successfully! [Simulation]`
+        );
+      } else {
+        alert("User not found.");
+      }
+    });
+
+  document
+    .querySelector(".footer-btn:nth-child(3)")
+    .addEventListener("click", () => {
+      const searchName = prompt("Enter username to search:").toLowerCase();
+      const result = users.find((u) =>
+        u.name.toLowerCase().includes(searchName)
+      );
+      if (result) {
+        alert(`✅ User Found:\n\nName: ${result.name}\nEmail: ${result.email}`);
+      } else {
+        alert("❌ No user found with that name.");
+      }
+    });
+
   // Toggle user dropdown menu
   userBtn.addEventListener("click", () => {
     userMenu.classList.toggle("show");
   });
 
-  // User Dashboard data (simulate all users' shared files)
+  // User Dashboard data (simulate current logged-in user shared files)
   const userData = {
     username: "Shoaib",
     uploads: 10,
@@ -125,52 +217,55 @@ document.addEventListener("DOMContentLoaded", () => {
         subject: "Database",
         uploadedDate: "1 Aug",
         downloads: 5,
-        filePath: "files/dbms.pdf"
+        filePath: "files/dbms.pdf",
       },
       {
         title: "Algorithms",
         subject: "Computer Science",
         uploadedDate: "28 Jul",
         downloads: 12,
-        filePath: "files/algo.pdf"
+        filePath: "files/algo.pdf",
       },
       {
         title: "OOP Concepts",
         subject: "Programming",
         uploadedDate: "26 Jul",
         downloads: 8,
-        filePath: "files/oop.pdf"
+        filePath: "files/oop.pdf",
       },
       {
         title: "Networking Basics",
         subject: "Networks",
         uploadedDate: "24 Jul",
         downloads: 9,
-        filePath: "files/networking.pdf"
+        filePath: "files/networking.pdf",
       },
       {
         title: "Software Testing",
         subject: "QA",
         uploadedDate: "20 Jul",
         downloads: 6,
-        filePath: "files/testing.pdf"
-      }
-    ]
+        filePath: "files/testing.pdf",
+      },
+    ],
   };
 
-  // Update dashboard
-  const filesContainer = document.getElementById('recent-files-container');
+  // Update User Dashboard UI
+  const filesContainer = document.getElementById("recent-files-container");
 
-  document.getElementById('user-btn').textContent = `Welcome, ${userData.username} ▼`;
-  document.getElementById('uploads-count').textContent = userData.uploads;
-  document.getElementById('downloads-count').textContent = userData.downloads;
-  document.getElementById('saved-notes-count').textContent = userData.savedNotes;
+  document.getElementById(
+    "user-btn"
+  ).textContent = `Welcome, ${userData.username} ▼`;
+  document.getElementById("uploads-count").textContent = userData.uploads;
+  document.getElementById("downloads-count").textContent = userData.downloads;
+  document.getElementById("saved-notes-count").textContent =
+    userData.savedNotes;
 
-  filesContainer.innerHTML = ''; // Clear old
+  filesContainer.innerHTML = ""; // Clear old content
 
-  userData.recentFiles.forEach(file => {
-    const fileCard = document.createElement('div');
-    fileCard.classList.add('file-card');
+  userData.recentFiles.forEach((file) => {
+    const fileCard = document.createElement("div");
+    fileCard.classList.add("file-card");
     fileCard.innerHTML = `
       <p><strong>Title:</strong> ${file.title}</p>
       <p><strong>Subject:</strong> ${file.subject}</p>
