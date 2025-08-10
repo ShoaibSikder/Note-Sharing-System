@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Note Sharing System</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <section class="home">
     <div class="container">
       <h1>📚 Note Sharing System</h1>
       <h2>Select Your Role</h2>
       <div class="card-wrapper">
-      <!-- Student Card -->
+        <!-- Student Card -->
         <a href="#User-login" class="role-card">
           <div class="icon">
             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User Icon">
@@ -37,12 +39,13 @@
   <!-- admin login -->
   <section class="Admin-login" id="Admin-login">
     <div class="container">
-      <div class="left-panel">  
+      <div class="left-panel">
         <div class="notification">
-          <p><strong>Admin login</strong><br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit magni, accusantium doloremque cupiditate quisquam!</p>
+          <p><strong>Admin login</strong><br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit
+            magni, accusantium doloremque cupiditate quisquam!</p>
         </div>
         <div class="img">
-          <img src="photos/adminlogin.png" alt="admin"/>
+          <img src="photos/adminlogin.png" alt="admin" />
         </div>
       </div>
 
@@ -53,10 +56,10 @@
           <form id="admin-login-form">
             <label for="admin-email">Email</label>
             <input type="email" id="admin-email" required />
-  
+
             <label for="admin-password">Password</label>
             <input type="password" id="admin-password" required />
-  
+
             <button type="submit">Login</button>
           </form>
         </div>
@@ -67,12 +70,13 @@
   <!-- user login -->
   <section class="User-login" id="User-login">
     <div class="container">
-      <div class="left-panel">  
+      <div class="left-panel">
         <div class="notification">
-          <p><strong>Student login</strong><br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit magni, accusantium doloremque cupiditate quisquam!</p>
+          <p><strong>Student login</strong><br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit
+            magni, accusantium doloremque cupiditate quisquam!</p>
         </div>
         <div class="img">
-          <img src="photos/studentlogin.png" alt="student"/>
+          <img src="photos/studentlogin.png" alt="student" />
         </div>
       </div>
 
@@ -91,19 +95,20 @@
             <a href="#">Forgot Password?</a>
             <button class="Create">Create Account</button>
           </div>
+        </div>
       </div>
-    </div>
   </section>
 
-<!-- User Registration form -->
- <section class="User-Register-form" id="User-Register-form">
+  <!-- User Registration form -->
+  <section class="User-Register-form" id="User-Register-form">
     <div class="container">
-      <div class="left-panel">  
+      <div class="left-panel">
         <div class="notification">
-          <p><strong>Student login</strong><br/>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit magni, accusantium doloremque cupiditate quisquam!</p>
+          <p><strong>Student login</strong><br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit
+            magni, accusantium doloremque cupiditate quisquam!</p>
         </div>
         <div class="img">
-          <img src="photos/studentlogin.png" alt="student"/>
+          <img src="photos/studentlogin.png" alt="student" />
         </div>
       </div>
 
@@ -122,8 +127,8 @@
             <input type="password" id="password" placeholder="********" required />
             <button type="submit">Submit</button>
           </form>
+        </div>
       </div>
-    </div>
   </section>
 
   <!-- POP UP message BOX -->
@@ -133,7 +138,7 @@
     </div>
   </section>
 
-<!-- admin dashboard -->
+  <!-- admin dashboard -->
   <section class="admin-dashboard-section" id="admin-dashboard">
     <!-- Top Bar -->
     <div class="top-bar">
@@ -144,7 +149,7 @@
         </button>
       </div>
     </div>
-  
+
     <!-- Dashboard Overview -->
     <section class="admin-overview">
       <h2>📊 Dashboard Overview</h2>
@@ -163,70 +168,90 @@
         </div>
       </div>
     </section>
-  
+
     <!-- Footer Action Buttons -->
     <footer class="admin-footer">
       <button class="footer-btn">👁️ View All Users</button>
       <button class="footer-btn">🗑️ Delete User</button>
       <button class="footer-btn">🔍 Search User</button>
+      <button class="footer-btn">Pending</button>
     </footer>
   </section>
 
-<!-- User Dashboard -->
-<section class="user-dashboard" id="user-dashboard">
+  <!-- User Dashboard -->
+  <section class="user-dashboard" id="user-dashboard">
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <div class="logo">📚 NoteSharingSystem (Students)</div>
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="logo">📚 NoteSharingSystem (Students)</div>
 
-    <div class="user-menu">
-      <button class="user-btn" id="user-btn">Welcome, User ▼</button>
-      <div class="user-dropdown">
-        <a href="#" id="profile-link">Profile Details</a>
-        <a href="#" class="logout-btn" id="logout-link">Logout</a>
+      <div class="user-menu">
+        <button class="user-btn" id="user-btn">Welcome, User ▼</button>
+        <div class="user-dropdown">
+          <a href="#" id="profile-link">Profile Details</a>
+          <a href="#" class="logout-btn" id="logout-link">Logout</a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Search Bar -->
-  <div class="search-bar">
-    <input type="text" placeholder="🔍 Search materials by name, subject, tags...">
-  </div>
-
-  <!-- Overview Boxes -->
-  <div class="overview">
-    <div class="overview-box">
-      <p>🗃️ Uploads</p>
-      <h2 id="uploads-count">0</h2>
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="🔍 Search materials by name, subject, tags...">
     </div>
-    <div class="overview-box">
-      <p>📥 Downloads</p>
-      <h2 id="downloads-count">0</h2>
+
+    <!-- Overview Boxes -->
+    <div class="overview">
+      <div class="overview-box">
+        <p>🗃️ Uploads</p>
+        <h2 id="uploads-count">0</h2>
+      </div>
+      <div class="overview-box">
+        <p>📥 Downloads</p>
+        <h2 id="downloads-count">0</h2>
+      </div>
+      <div class="overview-box">
+        <p>❤️ Saved Notes</p>
+        <h2 id="saved-notes-count">0</h2>
+      </div>
     </div>
-    <div class="overview-box">
-      <p>❤️ Saved Notes</p>
-      <h2 id="saved-notes-count">0</h2>
+
+    <!-- Recently Uploaded Files -->
+    <div class="recent-files">
+      <h3>📚 Recently Uploaded Files</h3>
+      <div class="recent-files-grid" id="recent-files-container">
+        <!-- JS will inject file-card boxes here -->
+      </div>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="dashboard-actions">
+      <button id="upload-btn">✍️ Upload New Note</button>
+      <button id="your-uploads-btn">🗃️ Your Uploads</button>
+      <button id="saved-items-btn">❤️ Saved Items</button>
+    </div>
+
+  </section>
+  <!-- Upload Form Modal -->
+  <div id="uploadModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeUpload">&times;</button>
+      <h2>Upload Material</h2>
+      <form id="uploadForm">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter title" required>
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" required>
+
+        <button type="submit">Upload</button>
+      </form>
     </div>
   </div>
-
-  <!-- Recently Uploaded Files -->
-  <div class="recent-files">
-    <h3>📚 Recently Uploaded Files</h3>
-    <div class="recent-files-grid" id="recent-files-container">
-      <!-- JS will inject file-card boxes here -->
-    </div>
-  </div>
-
-  <!-- Footer Actions -->
-  <div class="dashboard-actions">
-    <button id="upload-btn">✍️ Upload New Note</button>
-    <button id="your-uploads-btn">🗃️ Your Uploads</button>
-    <button id="saved-items-btn">❤️ Saved Items</button>
-  </div>
-
-</section>
-
 
   <script src="js/script.js"></script>
 </body>
+
 </html>

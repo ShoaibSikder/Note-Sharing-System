@@ -11,6 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const adminDashboard = document.getElementById("admin-dashboard");
   const userMenu = document.querySelector(".user-menu");
   const userBtn = document.querySelector(".user-btn");
+  const uploadBtn = document.getElementById("upload-btn");
+  const uploadModal = document.getElementById("uploadModal");
+  const closeUpload = document.getElementById("closeUpload");
+  const dashboard = document.getElementById("user-dashboard"); // Adjusted selector for your HTML
+  const uploadForm = document.getElementById("uploadForm");
+
+
+  //popup message
+  function showPopupMessage(message, isSuccess = true, callback) {
+    const popup = document.getElementById("popup-message");
+    const popupContent = popup.querySelector(".popup-content p");
+
+    popupContent.innerText = message;
+    popup.style.backgroundColor = isSuccess ? "#28a745" : "#dc3545"; // green for success, red for error
+    popup.classList.add("show");
+
+    setTimeout(() => {
+      popup.classList.remove("show");
+      if (callback) callback();
+    }, 3000);
+  }
+
 
   // Hide everything except home on load
   adminLogin.style.display = "none";
@@ -277,5 +299,44 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
     filesContainer.appendChild(fileCard);
+  });
+
+  // upload buttion
+  // Open Upload Modal
+  uploadBtn.addEventListener("click", () => {
+    uploadModal.style.display = "flex";
+    dashboard.classList.add("blur");
+  });
+
+  // Close Upload Modal
+  closeUpload.addEventListener("click", () => {
+    uploadModal.style.display = "none";
+    dashboard.classList.remove("blur");
+  });
+
+  // Handle form submission
+  uploadForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const file = document.getElementById("file").files[0];
+
+    if (!file) {
+      showPopupMessage("❌ Please select a file to upload.", false);
+      return;
+    }
+
+    if (!title || !subject) {
+      showPopupMessage("❌ Title and subject are required.", false);
+      return;
+    }
+
+    // Simulate upload success
+    showPopupMessage(`✅ Uploaded "${title}" successfully!`, true, () => {
+      uploadModal.style.display = "none";
+      dashboard.classList.remove("blur");
+      uploadForm.reset();
+    });
   });
 });
