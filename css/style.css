@@ -23,19 +23,19 @@ body {
   color: var(--text-color);
 }
 
-html{
+html {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
 }
-/* POP UP message styleing */
+/*popup style */
 .popup-message {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #00397a;
+  background-color: #00397a; /* keep blue */
   color: white;
   padding: 15px 25px;
   border-radius: 10px;
@@ -45,23 +45,32 @@ html{
   pointer-events: none;
   transition: opacity 0.5s ease;
   z-index: 9999;
+  border: 3px solid transparent; /* default border */
 }
 
+/* Show animation */
 .popup-message.show {
   opacity: 1;
   pointer-events: auto;
 }
 
+/* Success & error borders/icons */
+.popup-message.success {
+  border-color: #28a745; /* green border */
+}
 
-/* Home Section */
-.home{
-  background-color: var(--bg-color);
-  padding: 10px;
-  
+.popup-message.error {
+  border-color: #dc3545; /* red border */
 }
 
 
-.container{
+/* Home Section */
+.home {
+  background-color: var(--bg-color);
+  padding: 10px;
+}
+
+.container {
   max-width: 900px;
   background: var(--bg-color);
   border-radius: 10px;
@@ -79,7 +88,7 @@ h1 {
   text-align: center;
   text-decoration: underline;
 }
-h2{
+h2 {
   margin-bottom: 10px;
 }
 
@@ -99,14 +108,14 @@ h2{
   padding: 30px 20px;
   text-decoration: none;
   color: var(--text-color);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .role-card:hover {
   transform: translateY(-8px);
   background-color: rgba(0, 71, 138, 0.295);
-  box-shadow: 0 16px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 16px 25px rgba(0, 0, 0, 0.1);
 }
 
 .role-card .icon {
@@ -128,7 +137,6 @@ h2{
   object-fit: cover;
   display: block;
 }
-
 
 .role-card h2 {
   font-size: 1.4rem;
@@ -166,7 +174,7 @@ h2{
 /* Left Side */
 .left-panel {
   width: 50%;
-  background:var(--main-color);
+  background: var(--main-color);
   color: var(--bg-color);
   position: relative;
   display: flex;
@@ -179,7 +187,7 @@ h2{
 
 .left-panel .notification {
   background: var(--bg-color);
-  color:var(--text-color);
+  color: var(--text-color);
   padding: 10px;
   border-radius: 8px;
   position: absolute;
@@ -210,7 +218,7 @@ h2{
   width: 100%;
   position: relative; /* allow absolute child positioning */
   padding: 40px 20px 20px 20px;
-  background-color:var(--bg-color);
+  background-color: var(--bg-color);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -243,7 +251,7 @@ h2{
   font-size: 16px;
   cursor: pointer;
 }
-.login-box button:hover{
+.login-box button:hover {
   background: #0e4481;
 }
 
@@ -261,8 +269,8 @@ h2{
 
 .back-btn {
   position: absolute;
-  top: -20px;     /* move it higher, outside the login-box */
-  right: -20px;   /* move it outside the white container */
+  top: -20px; /* move it higher, outside the login-box */
+  right: -20px; /* move it outside the white container */
   width: 45px;
   height: 45px;
   font-size: 22px;
@@ -275,7 +283,7 @@ h2{
   align-items: center;
   cursor: pointer;
   border: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s, color 0.3s;
   z-index: 1000;
 }
@@ -313,11 +321,11 @@ h2{
   justify-content: center;
   position: relative;
 }
-.registration-registration{
+.registration-registration {
   width: 100%;
   position: relative; /* allow absolute child positioning */
   padding: 40px 20px 20px 20px;
-  background-color:var(--bg-color);
+  background-color: var(--bg-color);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -350,10 +358,9 @@ h2{
   font-size: 16px;
   cursor: pointer;
 }
-.registration-box button:hover{
+.registration-box button:hover {
   background: #0e4481;
 }
-
 
 /* user dashboard */
 /* Dashboard container */
@@ -366,7 +373,7 @@ h2{
   flex-direction: column;
   gap: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Top Bar */
@@ -416,7 +423,7 @@ h2{
   right: 0;
   top: 110%;
   background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 6px;
   min-width: 180px;
   z-index: 100;
@@ -515,7 +522,10 @@ h2{
 /* Grid Container */
 .recent-files-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* 4–5 boxes depending on width */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(200px, 1fr)
+  ); /* 4–5 boxes depending on width */
   gap: 16px;
 }
 
@@ -548,7 +558,7 @@ h2{
   border: none;
   color: white;
   padding: 7px 15px;
-  
+
   margin-right: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -560,7 +570,6 @@ h2{
   background-color: #1c5980;
 }
 
-
 /* Footer actions */
 .dashboard-actions {
   margin-top: auto; /* push to bottom */
@@ -570,7 +579,7 @@ h2{
 }
 
 .dashboard-actions button {
-  background-color:var(--main-color);
+  background-color: var(--main-color);
   border: none;
   color: white;
   padding: 12px 25px;
@@ -595,7 +604,7 @@ h2{
 
 /* Modal overlay */
 .modal-overlay {
-  display: none; 
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -615,7 +624,7 @@ h2{
   padding: 20px;
   width: 350px;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -667,8 +676,14 @@ h2{
 }
 
 @keyframes fadeIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Responsive tweaks */
@@ -686,6 +701,78 @@ h2{
   }
 }
 
+/* your upload button */
+.your-uploads-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11000;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.your-uploads-modal-content {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  max-width: 600px;
+  width: 90%;
+  padding: 60px 20px 20px 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.your-uploads-modal-content .close-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  padding: 10px 20px;
+  background: #2d89ef;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 22px;
+  width: auto; /* changed from 100% */
+  box-sizing: border-box; /* to include padding in size */
+}
+
+.your-uploads-modal-content .close-btn:hover {
+  background: #1c5cb8;
+}
+
+.file-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  background-color: #fafafa;
+}
+
+.file-actions button,
+.file-actions a button {
+  margin-right: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.file-actions button:hover,
+.file-actions a button:hover {
+  background-color: #0056b3;
+}
+
 /* admin dashboard */
 /* Admin Dashboard Container */
 #admin-dashboard {
@@ -697,7 +784,7 @@ h2{
   flex-direction: column;
   gap: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Admin Dashboard Top Bar */
@@ -725,8 +812,8 @@ h2{
 }
 
 .admin-info button#admin-logout {
-  background-color: var(--main-color);  /* main color background */
-  color: #ffffff;                        /* white text */
+  background-color: var(--main-color); /* main color background */
+  color: #ffffff; /* white text */
   border: none;
   border-radius: 6px;
   padding: 10px 18px;
@@ -738,9 +825,8 @@ h2{
 
 .admin-info button#admin-logout:hover {
   background-color: #395d86; /* darker shade on hover */
-  color: var(--bg-color);    /* optional: contrast text on hover */
+  color: var(--bg-color); /* optional: contrast text on hover */
 }
-
 
 /* Overview Section */
 #admin-dashboard .overview-cards {
@@ -748,9 +834,8 @@ h2{
   gap: 20px;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 40px; 
+  margin-bottom: 40px;
 }
-
 
 #admin-dashboard .overview-cards .card {
   flex: 1 1 30%;

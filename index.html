@@ -15,6 +15,7 @@
       <h1>📚 Note Sharing System</h1>
       <h2>Select Your Role</h2>
       <div class="card-wrapper">
+
         <!-- Student Card -->
         <a href="#User-login" class="role-card">
           <div class="icon">
@@ -209,10 +210,6 @@
         <p>📥 Downloads</p>
         <h2 id="downloads-count">0</h2>
       </div>
-      <div class="overview-box">
-        <p>❤️ Saved Notes</p>
-        <h2 id="saved-notes-count">0</h2>
-      </div>
     </div>
 
     <!-- Recently Uploaded Files -->
@@ -227,7 +224,6 @@
     <div class="dashboard-actions">
       <button id="upload-btn">✍️ Upload New Note</button>
       <button id="your-uploads-btn">🗃️ Your Uploads</button>
-      <button id="saved-items-btn">❤️ Saved Items</button>
     </div>
 
   </section>
@@ -251,7 +247,23 @@
     </div>
   </div>
 
-  <script src="js/script.js"></script>
+  <!-- Your Uploads Modal -->
+  <div id="yourUploadsModal" class="your-uploads-modal-overlay" style="display:none;">
+    <div class="your-uploads-modal-content">
+      <button class="close-btn" id="closeYourUploads">&times;</button>
+      <h2>🗃️ Your Uploaded Files</h2>
+      <div id="your-uploads-container" style="max-height: 400px; overflow-y: auto; margin-top: 15px;"></div>
+    </div>
+  </div>
+
+
+  <script src="js/popupMessage.js" defer></script>
+  <script src="js/userLogin.js" defer></script>
+  <script src="js/userRegistration.js" defer></script>
+  <script src="js/adminLogin.js" defer></script>
+  <script src="js/userDashboard.js" defer></script>
+  <script src="js/adminDashboard.js" defer></script>
+
 </body>
 
 </html>
