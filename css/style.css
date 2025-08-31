@@ -18,7 +18,7 @@
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 0 70px 0;
   background: var(--bg-color);
   color: var(--text-color);
 }
@@ -62,7 +62,6 @@ html {
 .popup-message.error {
   border-color: #dc3545; /* red border */
 }
-
 
 /* Home Section */
 .home {
@@ -773,7 +772,6 @@ h2 {
   background-color: #0056b3;
 }
 
-/* admin dashboard */
 /* Admin Dashboard Container */
 #admin-dashboard {
   margin: 20px;
@@ -787,7 +785,6 @@ h2 {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Admin Dashboard Top Bar */
 /* Top Bar */
 #admin-dashboard .top-bar {
   display: flex;
@@ -796,6 +793,7 @@ h2 {
   padding: 10px 0;
   background-color: var(--main-color);
   border-bottom: 1px solid #ddd;
+  border-radius: 8px 8px 0 0;
 }
 
 #admin-dashboard .top-bar .logo {
@@ -804,40 +802,56 @@ h2 {
   color: #ffffff;
 }
 
-/* Admin Info Button */
-.admin-info {
+/* Admin Dropdown */
+.admin-menu {
   position: relative;
-  display: inline-block;
-  background: transparent; /* No background on wrapper */
 }
 
-.admin-info button#admin-logout {
-  background-color: var(--main-color); /* main color background */
-  color: #ffffff; /* white text */
+.admin-btn {
+  background: transparent;
   border: none;
-  border-radius: 6px;
-  padding: 10px 18px;
-  cursor: pointer;
+  color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
 }
 
-.admin-info button#admin-logout:hover {
-  background-color: #395d86; /* darker shade on hover */
-  color: var(--bg-color); /* optional: contrast text on hover */
+.admin-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background-color: #ffffff;
+  color: #2c3e50;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  min-width: 150px;
+  z-index: 1001;
+}
+
+.admin-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #2c3e50;
+}
+
+.admin-dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+.admin-dropdown.show {
+  display: block;
 }
 
 /* Overview Section */
-#admin-dashboard .overview-cards {
+#admin-dashboard .overview {
   display: flex;
   gap: 20px;
-  justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 40px;
 }
 
-#admin-dashboard .overview-cards .card {
+#admin-dashboard .overview-box {
   flex: 1 1 30%;
   background-color: #e8f0fe;
   border-radius: 12px;
@@ -850,14 +864,14 @@ h2 {
   transition: transform 0.2s ease;
 }
 
-#admin-dashboard .overview-cards .card h3 {
+#admin-dashboard .overview-box h3 {
   font-size: 1.1rem;
   margin-bottom: 10px;
   font-weight: 600;
   color: #2980b9;
 }
 
-#admin-dashboard .overview-cards .card p {
+#admin-dashboard .overview-box h2 {
   font-size: 2rem;
   margin: 0;
   font-weight: 700;
@@ -868,14 +882,8 @@ h2 {
   gap: 8px;
 }
 
-#admin-dashboard .overview-cards .card p img,
-#admin-dashboard .overview-cards .card p svg {
-  width: 18px;
-  height: 18px;
-}
-
 /* Footer Buttons */
-#admin-dashboard .admin-footer {
+#admin-dashboard .dashboard-actions {
   margin-top: auto;
   display: flex;
   gap: 15px;
@@ -885,7 +893,7 @@ h2 {
   padding-top: 20px;
 }
 
-#admin-dashboard .admin-footer .footer-btn {
+#admin-dashboard .dashboard-actions button {
   background-color: var(--main-color);
   border: none;
   color: white;
@@ -898,29 +906,148 @@ h2 {
   flex: 1 1 150px;
 }
 
-#admin-dashboard .admin-footer .footer-btn:hover {
+#admin-dashboard .dashboard-actions button:hover {
   background-color: #2e6496;
+}
+
+/* Modals */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  padding: 30px 25px 25px 25px; /* more top padding for spacing */
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.close-btn {
+  position: absolute;
+  padding: 12px;
+  margin: 10px;
+  right: 10px;
+  top: 10px;
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #333; /* default color */
+  transition: color 0.3s ease; /* smooth color transition */
+}
+
+.close-btn:hover {
+  color: #2f4b82; /* change to red or any color you prefer */
+}
+
+/* File/User Card inside Modals */
+.file-grid .file-card,
+#searchUserMsg .file-card {
+  background-color: #e8f0fe;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 5px #c5d9f7;
+  color: #2c3e50;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Modal input and buttons */
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 12px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-content button {
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+  transition: background-color 0.2s;
+}
+
+.modal-content button:hover {
+  background-color: #2e6496;
+}
+
+/* Blur Effect */
+.blur {
+  filter: blur(5px);
 }
 
 /* Responsive */
 @media (max-width: 720px) {
-  #admin-dashboard .admin-overview {
+  #admin-dashboard .overview {
     flex-direction: column;
   }
 
-  #admin-dashboard .overview-cards .card {
+  #admin-dashboard .overview-box {
     flex: 1 1 100%;
   }
 
-  #admin-dashboard .admin-footer .footer-btn {
+  #admin-dashboard .dashboard-actions button {
     flex: 1 1 100%;
   }
+}
 
-  #admin-dashboard .recent-files-grid {
-    grid-template-columns: 1fr;
-  }
+/* Footer Styling */
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9); /* white with 90% opacity */
+  color: #00397a; /* main-color text */
+  text-align: center;
+  padding: 15px 10px;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  -webkit-backdrop-filter: blur(5px); /* Safari/iOS support */
+  backdrop-filter: blur(5px); /* subtle blur for transparency effect */
+}
 
-  #admin-dashboard .recent-files .file-card {
-    width: 100%;
-  }
+.footer p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.footer a {
+  color: #00397a; /* main color for links */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.footer a:hover {
+  color: #3973ca; /* accent color on hover */
+  text-decoration: underline;
 }

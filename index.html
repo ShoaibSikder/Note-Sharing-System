@@ -171,13 +171,43 @@
     </section>
 
     <!-- Footer Action Buttons -->
-    <footer class="admin-footer">
+    <div class="admin-footer">
       <button class="footer-btn">👁️ View All Users</button>
       <button class="footer-btn">🗑️ Delete User</button>
       <button class="footer-btn">🔍 Search User</button>
-      <button class="footer-btn">Pending</button>
-    </footer>
+    </div>
   </section>
+
+  <!-- View Users Modal -->
+  <div id="viewUsersModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeViewUsers">&times;</button>
+      <h2>📋 All Users</h2>
+      <div id="users-container" class="file-grid"></div>
+    </div>
+  </div>
+
+  <!-- Delete User Modal -->
+  <div id="deleteUserModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeDeleteUser">&times;</button>
+      <h2>🗑️ Delete User</h2>
+      <input type="text" id="deleteUserName" placeholder="Enter username or ID">
+      <button id="deleteUserConfirm">Delete</button>
+      <p id="deleteUserMsg" style="margin-top:10px;"></p>
+    </div>
+  </div>
+
+  <!-- Search User Modal -->
+  <div id="searchUserModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="close-btn" id="closeSearchUser">&times;</button>
+      <h2>🔍 Search User</h2>
+      <input type="text" id="searchUserName" placeholder="Enter username or ID">
+      <button id="searchUserConfirm">Search</button>
+      <p id="searchUserMsg" style="margin-top:10px;"></p>
+    </div>
+  </div>
 
   <!-- User Dashboard -->
   <section class="user-dashboard" id="user-dashboard">
@@ -267,5 +297,12 @@
   <script src="js/adminDashboard.js" defer></script>
 
 </body>
-
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>© 2025 All Rights Reserved by <a href="shoaibsikder.github.io/My-Portfolio" target="_blank">MD. Shoaib Sikder</a>
+    </p>
+    <p>Contact: <a href="mailto:shoaib@example.com">shoaibsikder0@gmail.com</a> | +880 1777 936837</p>
+  </div>
+</footer>
 </html>
