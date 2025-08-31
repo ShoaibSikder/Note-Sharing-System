@@ -1,37 +1,28 @@
 // adminDashboard.js
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const adminDashboard = document.getElementById("admin-dashboard");
   const homeSection = document.querySelector(".home");
   const adminLogout = document.getElementById("admin-logout");
 
-  const userUploads = [
-    {
-      username: "shoaib",
-      file: "oop_notes.pdf",
-      downloads: 22,
-      approved: true,
-    },
-    {
-      username: "fatima",
-      file: "db_project.docx",
-      downloads: 14,
-      approved: false,
-    },
-  ];
-  const users = [
-    { id: 1, name: "Shoaib Sikder", email: "shoaib@example.com" },
-    { id: 2, name: "Fatima Akter", email: "fatima@example.com" },
-  ];
+  // --- DASHBOARD OVERVIEW ---
+  async function loadOverview() {
+    try {
+      const res = await fetch("/api/admin/overview");
+      const overview = await res.json();
+      document.getElementById("total-uploads").textContent =
+        overview.totalUploads;
+      document.getElementById("total-downloads").textContent =
+        overview.totalDownloads;
+      document.getElementById("total-approvals").textContent =
+        overview.totalApprovals;
+    } catch (err) {
+      console.error("Error loading overview:", err);
+    }
+  }
 
-  document.getElementById("total-uploads").textContent = userUploads.length;
-  document.getElementById("total-downloads").textContent = userUploads.reduce(
-    (acc, item) => acc + item.downloads,
-    0
-  );
-  document.getElementById("total-approvals").textContent = userUploads.filter(
-    (item) => item.approved
-  ).length;
+  await loadOverview();
 
+  // --- LOGOUT ---
   if (adminLogout) {
     adminLogout.addEventListener("click", () => {
       adminDashboard.style.display = "none";
@@ -39,37 +30,79 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // --- VIEW ALL USERS ---
   document
     .querySelector(".footer-btn:nth-child(1)")
-    .addEventListener("click", () => {
-      let message = "📋 All Users:\n\n";
-      users.forEach((user) => {
-        message += `🧑 ${user.name} (${user.email})\n`;
-      });
-      alert(message);
+    .addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/admin/users");
+        const users = await res.json();
+        let message = "📋 All Users:\n\n";
+        users.forEach((u) => (message += `🧑 ${u.full_name} (${u.email})\n`));
+        alert(message);
+      } catch (err) {
+        alert("Error fetching users.");
+        console.error(err);
+      }
     });
 
+  // --- DELETE USER ---
   document
     .querySelector(".footer-btn:nth-child(2)")
-    .addEventListener("click", () => {
+    .addEventListener("click", async () => {
       const userId = prompt("Enter User ID to delete:");
-      const found = users.find((user) => user.id == userId);
-      alert(
-        found ? `User ${found.name} deleted successfully!` : "User not found."
-      );
+      if (!userId) return;
+      try {
+        const res = await fetch(`/api/admin/users/${userId}`, {
+          method: "DELETE",
+        });
+        const result = await res.json();
+        alert(result.message || result.error);
+        loadOverview(); // refresh counts
+      } catch (err) {
+        alert("Error deleting user.");
+        console.error(err);
+      }
     });
 
+  // --- SEARCH USER ---
   document
     .querySelector(".footer-btn:nth-child(3)")
-    .addEventListener("click", () => {
-      const searchName = prompt("Enter username to search:").toLowerCase();
-      const result = users.find((u) =>
-        u.name.toLowerCase().includes(searchName)
-      );
-      alert(
-        result
-          ? `✅ User Found:\n\nName: ${result.name}\nEmail: ${result.email}`
-          : "❌ No user found."
-      );
+    .addEventListener("click", async () => {
+      const query = prompt("Enter username or email to search:");
+      if (!query) return;
+      try {
+        const res = await fetch(`/api/admin/users/search/${query}`);
+        const users = await res.json();
+        if (users.length > 0) {
+          let msg = "✅ Users Found:\n\n";
+          users.forEach((u) => (msg += `🧑 ${u.full_name} (${u.email})\n`));
+          alert(msg);
+        } else {
+          alert("❌ No user found.");
+        }
+      } catch (err) {
+        alert("Error searching user.");
+        console.error(err);
+      }
+    });
+
+  // --- PENDING UPLOADS ---
+  document
+    .querySelector(".footer-btn:nth-child(4)")
+    .addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/admin/uploads/pending");
+        const uploads = await res.json();
+        if (uploads.length === 0) return alert("No pending uploads.");
+        let msg = "⏳ Pending Uploads:\n\n";
+        uploads.forEach(
+          (u) => (msg += `📄 ${u.title} by User ID ${u.user_id}\n`)
+        );
+        alert(msg);
+      } catch (err) {
+        alert("Error fetching pending uploads.");
+        console.error(err);
+      }
     });
 });

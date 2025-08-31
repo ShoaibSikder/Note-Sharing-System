@@ -32,13 +32,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Registration form submission
+  // Registration form submission (connect to PHP)
   const registrationForm = registerForm.querySelector("form");
-  registrationForm.addEventListener("submit", (e) => {
+  registrationForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    showPopupMessage("✅ Registration successful!", true);
-    registrationForm.reset();
-    registerForm.style.display = "none";
-    userLogin.style.display = "block";
+
+    const formData = new FormData(registrationForm);
+
+    try {
+      const res = await fetch("php/register.php", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showPopupMessage("✅ Registration successful!", true);
+        registrationForm.reset();
+        registerForm.style.display = "none";
+        userLogin.style.display = "block";
+      } else {
+        showPopupMessage("❌ " + data.message, false);
+      }
+    } catch (error) {
+      console.error(error);
+      showPopupMessage("❌ Server error!", false);
+    }
   });
 });

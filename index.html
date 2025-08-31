@@ -85,7 +85,7 @@
         <i class='bx bx-arrow-back back-btn' title="Back"></i>
         <div class="login-box">
           <h3>📚 Note Sharing System</h3>
-          <form>
+          <form action="Database/login.php" method="post">
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="example@gmail.com" required />
             <label for="password">Password?</label>
@@ -117,7 +117,7 @@
         <i class='bx bx-arrow-back back-btn' title="Back"></i>
         <div class="registration-box">
           <h3>📚 Note Sharing System</h3>
-          <form>
+          <form action="Database/register.php" method="post">
             <label for="fullname">Full Name</label>
             <input type="text" id="fullname" placeholder="Your full name" required />
             <label for="institute">Institute Name</label>
@@ -227,6 +227,7 @@
     </div>
 
   </section>
+
   <!-- Upload Form Modal -->
   <div id="uploadModal" class="modal-overlay">
     <div class="modal-content">
@@ -255,6 +256,7 @@
       <div id="your-uploads-container" style="max-height: 400px; overflow-y: auto; margin-top: 15px;"></div>
     </div>
   </div>
+
 
 
   <script src="js/popupMessage.js" defer></script>
