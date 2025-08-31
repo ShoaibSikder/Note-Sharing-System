@@ -8,8 +8,8 @@ Includes **separate dashboards for users and admins**, secure login, and organiz
 ## ✨ Features
 
 - **User Registration & Login** – Secure authentication system.
-- **Admin Panel** – Manage users, monitor shared materials, and moderate content.
-- **User Dashboard** – Upload, download, and organize study materials.
+- **Admin Panel** – Manage users(View,Search,Delete), monitor shared materials, and moderate content.
+- **User Dashboard** – Upload, download, organize study materials and User Upload Download History.
 - **Search & Filter** – Quickly find relevant notes.
 - **Responsive UI** – Works on desktop and mobile.
 
