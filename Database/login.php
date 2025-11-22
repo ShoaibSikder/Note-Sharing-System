@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
 
+session_start(); // <-- start session
+
 require_once "db_connect.php";
 
 $email = $_GET['email'] ?? '';
@@ -13,7 +15,8 @@ if (!$email || !$password) {
     exit;
 }
 
-$stmt = $conn->prepare("SELECT password FROM users WHERE email=?");
+// Get user ID and hashed password
+$stmt = $conn->prepare("SELECT id, fullname, password FROM users WHERE email=?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
@@ -23,7 +26,7 @@ if ($stmt->num_rows === 0) {
     exit;
 }
 
-$stmt->bind_result($hashed_password);
+$stmt->bind_result($id, $fullname, $hashed_password);
 $stmt->fetch();
 $stmt->close();
 
@@ -32,5 +35,14 @@ if (!password_verify($password, $hashed_password)) {
     exit;
 }
 
-echo json_encode(['success'=>true,'message'=>'Login successful']);
+// ✅ Store user info in session
+$_SESSION['id'] = $id;
+$_SESSION['fullname'] = $fullname;
+
+echo json_encode([
+    'success' => true,
+    'message' => 'Login successful',
+    'user_id' => $id,
+    'fullname' => $fullname
+]);
 exit;

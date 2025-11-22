@@ -2,15 +2,14 @@
 session_start();
 include 'db_connect.php';
 
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['id'])) {
     die("Not logged in.");
 }
 
 if (isset($_GET['file_id'])) {
     $file_id = intval($_GET['file_id']);
-    $user_id = $_SESSION['user_id'];
+    $user_id = $_SESSION['id'];
 
-    // Find file
     $sql = "SELECT * FROM uploads WHERE upload_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $file_id);
@@ -22,13 +21,11 @@ if (isset($_GET['file_id'])) {
         $file_path = $file['file_path'];
 
         if (file_exists($file_path)) {
-            // Save download record
-            $sql = "INSERT INTO downloads (upload_id, user_id) VALUES (?, ?)";
-            $stmt2 = $conn->prepare($sql);
+            $sql2 = "INSERT INTO downloads (upload_id, id) VALUES (?, ?)";
+            $stmt2 = $conn->prepare($sql2);
             $stmt2->bind_param("ii", $file_id, $user_id);
             $stmt2->execute();
 
-            // Force download
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
             header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');

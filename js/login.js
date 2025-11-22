@@ -6,20 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("user-login-form");
   const userDashboard = document.getElementById("user-dashboard");
 
-  // 1. Hide dashboard initially
+  // Hide dashboard initially
   if (userDashboard) userDashboard.style.display = "none";
 
-  // 2. When student card is clicked → show login page
+  // Show login page when student card clicked
   if (studentCard) {
     studentCard.addEventListener("click", (e) => {
       e.preventDefault();
-      homeSection.style.display = "none";
-      userLogin.style.display = "block";
-      adminLogin.style.display = "none";
+      if (homeSection) homeSection.style.display = "none";
+      if (userLogin) userLogin.style.display = "block";
+      if (adminLogin) adminLogin.style.display = "none";
     });
   }
 
-  // 3. Handle login form submit
+  // Handle login form submit
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -33,26 +33,31 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        // Send GET request because your PHP uses $_GET
         const url = `./Database/login.php?email=${encodeURIComponent(
           email
         )}&password=${encodeURIComponent(password)}`;
 
-        const res = await fetch(url);
+        // ✅ Include credentials so PHP session is sent
+        const res = await fetch(url, {
+          method: "GET",
+          credentials: "same-origin",
+        });
+
         const data = await res.json();
 
-        // 4. If login success
         if (data.success) {
+          // Optional: store user info in localStorage for dashboard use
+          if (data.user_id) localStorage.setItem("user_id", data.user_id);
+          if (data.fullname) localStorage.setItem("user_name", data.fullname);
+
           showPopupMessage("✅ Login successful", true, () => {
-            userLogin.style.display = "none";
-            userDashboard.style.display = "block";
+            if (userLogin) userLogin.style.display = "none";
+            if (userDashboard) userDashboard.style.display = "block";
           });
         } else {
-          // Invalid email or pass
           showPopupMessage("❌ " + data.message, false);
         }
       } catch (error) {
-        // Database or server down
         console.error(error);
         showPopupMessage("❌ Server or database error!", false);
       }
