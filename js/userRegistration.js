@@ -1,6 +1,6 @@
-// userRegistration.js
 document.addEventListener("DOMContentLoaded", () => {
-  const registerForm = document.getElementById("User-Register-form");
+  const registerFormSection = document.getElementById("User-Register-form");
+  const registrationForm = document.getElementById("registrationForm");
   const createButtons = document.querySelectorAll(".Create");
   const backButtons = document.querySelectorAll(".back-btn");
   const homeSection = document.querySelector(".home");
@@ -13,50 +13,60 @@ document.addEventListener("DOMContentLoaded", () => {
       homeSection.style.display = "none";
       userLogin.style.display = "none";
       adminLogin.style.display = "none";
-      registerForm.style.display = "block";
+      registerFormSection.style.display = "block";
     });
   });
 
   // Back button behavior
   backButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      if (registerForm.style.display === "block") {
-        registerForm.style.display = "none";
+      if (registerFormSection.style.display === "block") {
+        registerFormSection.style.display = "none";
         userLogin.style.display = "block";
       } else {
         homeSection.style.display = "block";
         adminLogin.style.display = "none";
         userLogin.style.display = "none";
-        registerForm.style.display = "none";
+        registerFormSection.style.display = "none";
       }
     });
   });
 
-  // Registration form submission (connect to PHP)
-  const registrationForm = registerForm.querySelector("form");
-  registrationForm.addEventListener("submit", async (e) => {
+  // Registration form submission
+  registrationForm.addEventListener("submit", function (e) {
     e.preventDefault();
+    const formData = new FormData(this);
 
-    const formData = new FormData(registrationForm);
+    fetch("./Database/register.php", {
+      // adjust path if needed
+      method: "POST",
+      body: formData,
+    })
+      .then(async (response) => {
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          data = { code: response.status, message: response.statusText };
+        }
 
-    try {
-      const res = await fetch("php/register.php", {
-        method: "POST",
-        body: formData,
+        if (response.ok) {
+          showPopupMessage("✅ " + data.message, true);
+          this.reset();
+          registerFormSection.style.display = "none";
+          userLogin.style.display = "block";
+        } else {
+          showPopupMessage(
+            `❌ Error ${data.code || response.status}: ${
+              data.message || response.statusText
+            }`,
+            false
+          );
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        showPopupMessage("❌ Unexpected error!", false);
       });
-      const data = await res.json();
-
-      if (data.success) {
-        showPopupMessage("✅ Registration successful!", true);
-        registrationForm.reset();
-        registerForm.style.display = "none";
-        userLogin.style.display = "block";
-      } else {
-        showPopupMessage("❌ " + data.message, false);
-      }
-    } catch (error) {
-      console.error(error);
-      showPopupMessage("❌ Server error!", false);
-    }
   });
 });

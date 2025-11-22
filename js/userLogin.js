@@ -1,70 +1,47 @@
-// userLogin.js
 document.addEventListener("DOMContentLoaded", () => {
-  const studentCard = document.querySelector('a[href="#User-login"]');
-  const homeSection = document.querySelector(".home");
-  const userLogin = document.getElementById("User-login");
-  const adminLogin = document.getElementById("Admin-login");
   const loginForm = document.getElementById("user-login-form");
+  const userLogin = document.getElementById("User-login");
   const userDashboard = document.getElementById("user-dashboard");
 
-  // ✅ Always hide dashboard on page load
-  if (userDashboard) {
-    userDashboard.style.display = "none";
-  }
-
-  // Predefined credentials
-  const predefinedUser = {
-    username: "shoaib@gmail.com",
-    password: "1157",
-  };
-
-  // Show login form when student clicks
-  studentCard.addEventListener("click", (e) => {
-    e.preventDefault();
-    homeSection.style.display = "none";
-    userLogin.style.display = "block";
-    adminLogin.style.display = "none";
-  });
-
-  // Handle login form submit
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const formData = new FormData(loginForm);
-      const username = formData.get("username");
-      const password = formData.get("password");
 
-      // ✅ First check predefined login
-      if (
-        username === predefinedUser.username &&
-        password === predefinedUser.password
-      ) {
-        showPopupMessage("✅ Login successful (local user)!", true, () => {
-          userLogin.style.display = "none";
-          userDashboard.style.display = "block"; // show dashboard
-        });
-        return; // Stop here (don’t send to server)
+      const email = document.getElementById("email1").value.trim();
+      const password = document.getElementById("password2").value.trim();
+
+      if (!email || !password) {
+        showPopupMessage("❌ Please enter email and password", false);
+        return;
       }
 
-      // Otherwise, check with server
       try {
-        const res = await fetch("php/login.php", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
+        // Use GET parameters since your PHP expects $_GET
+        const url = `./Database/login.php?email=${encodeURIComponent(
+          email
+        )}&password=${encodeURIComponent(password)}`;
+        const res = await fetch(url);
+
+        const text = await res.text();
+        console.log("Server response:", text); // Debug
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          throw new Error("Invalid server response");
+        }
 
         if (data.success) {
-          showPopupMessage("✅ Login successful!", true, () => {
+          showPopupMessage("✅ " + data.message, true, () => {
             userLogin.style.display = "none";
-            userDashboard.style.display = "block"; // show dashboard
+            userDashboard.style.display = "block";
           });
         } else {
           showPopupMessage("❌ " + data.message, false);
         }
-      } catch (error) {
-        console.error(error);
-        showPopupMessage("❌ Server error!", false);
+      } catch (err) {
+        console.error(err);
+        showPopupMessage("❌ Database connection or server error", false);
       }
     });
   }

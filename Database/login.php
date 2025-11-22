@@ -1,31 +1,36 @@
 <?php
-session_start();
-include 'db_connect.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+header('Content-Type: application/json');
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+require_once "db_connect.php";
 
-    $sql = "SELECT * FROM users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$email = $_GET['email'] ?? '';
+$password = $_GET['password'] ?? '';
 
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-
-        if (password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['user_id'];
-            $_SESSION['full_name'] = $user['full_name'];
-
-            header("Location: user_dashboard.php");
-            exit();
-        } else {
-            echo "Invalid password.";
-        }
-    } else {
-        echo "User not found.";
-    }
+if (!$email || !$password) {
+    echo json_encode(['success'=>false,'message'=>'Please enter both email and password']);
+    exit;
 }
-?>
+
+$stmt = $conn->prepare("SELECT password FROM users WHERE email=?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    echo json_encode(['success'=>false,'message'=>'Invalid email or password']);
+    exit;
+}
+
+$stmt->bind_result($hashed_password);
+$stmt->fetch();
+$stmt->close();
+
+if (!password_verify($password, $hashed_password)) {
+    echo json_encode(['success'=>false,'message'=>'Invalid email or password']);
+    exit;
+}
+
+echo json_encode(['success'=>true,'message'=>'Login successful']);
+exit;
