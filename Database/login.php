@@ -3,9 +3,19 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
 
-session_start(); // <-- start session
+// Secure session settings
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'secure' => false, // change to true if using HTTPS
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+
+session_start();
 
 require_once "db_connect.php";
+require_once "cipher.php";
 
 $email = $_GET['email'] ?? '';
 $password = $_GET['password'] ?? '';
@@ -15,7 +25,7 @@ if (!$email || !$password) {
     exit;
 }
 
-// Get user ID and hashed password
+// Find user
 $stmt = $conn->prepare("SELECT id, fullname, password FROM users WHERE email=?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
@@ -30,14 +40,22 @@ $stmt->bind_result($id, $fullname, $hashed_password);
 $stmt->fetch();
 $stmt->close();
 
-if (!password_verify($password, $hashed_password)) {
+// Encrypt login password same way as registration
+$encrypted_pass = caesar_encrypt($password, 5);
+
+// Verify
+if (!password_verify($encrypted_pass, $hashed_password)) {
     echo json_encode(['success'=>false,'message'=>'Invalid email or password']);
     exit;
 }
 
-// ✅ Store user info in session
+// Regenerate session ID
+session_regenerate_id(true);
+
+// Set session variables
 $_SESSION['id'] = $id;
 $_SESSION['fullname'] = $fullname;
+$_SESSION['logged_in'] = true;
 
 echo json_encode([
     'success' => true,
@@ -46,3 +64,4 @@ echo json_encode([
     'fullname' => $fullname
 ]);
 exit;
+?>

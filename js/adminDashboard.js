@@ -1,108 +1,186 @@
-// adminDashboard.js
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   const adminDashboard = document.getElementById("admin-dashboard");
-  const homeSection = document.querySelector(".home");
-  const adminLogout = document.getElementById("admin-logout");
+  const adminLogin = document.getElementById("Admin-login");
 
-  // --- DASHBOARD OVERVIEW ---
-  async function loadOverview() {
-    try {
-      const res = await fetch("/api/admin/overview");
-      const overview = await res.json();
-      document.getElementById("total-uploads").textContent =
-        overview.totalUploads;
-      document.getElementById("total-downloads").textContent =
-        overview.totalDownloads;
-      document.getElementById("total-approvals").textContent =
-        overview.totalApprovals;
-    } catch (err) {
-      console.error("Error loading overview:", err);
+  // Admin dropdown
+  const adminBtn = document.getElementById("admin-btn");
+  const adminDropdown = document.querySelector(".admin-dropdown");
+  if (adminBtn) {
+    adminBtn.addEventListener("click", () => {
+      adminDropdown.classList.toggle("show");
+    });
+  }
+
+  // Sample users with full details
+  const users = [
+    {
+      id: 1,
+      name: "Shoaib Sikder",
+      username: "shoaib123",
+      email: "shoaib@example.com",
+      uploads: 10,
+      downloads: 25,
+    },
+    {
+      id: 2,
+      name: "Fatima Akter",
+      username: "fatimaA",
+      email: "fatima@example.com",
+      uploads: 5,
+      downloads: 14,
+    },
+    {
+      id: 3,
+      name: "Ali Hasan",
+      username: "aliH",
+      email: "ali@example.com",
+      uploads: 7,
+      downloads: 9,
+    },
+    {
+      id: 4,
+      name: "Nadia Khan",
+      username: "nadiaK",
+      email: "nadia@example.com",
+      uploads: 3,
+      downloads: 4,
+    },
+  ];
+
+  // Populate dashboard stats
+  const totalUploadsEl = document.getElementById("total-uploads");
+  const totalDownloadsEl = document.getElementById("total-downloads");
+  const updateStats = () => {
+    totalUploadsEl.textContent = users.reduce((acc, u) => acc + u.uploads, 0);
+    totalDownloadsEl.textContent = users.reduce(
+      (acc, u) => acc + u.downloads,
+      0
+    );
+  };
+  updateStats();
+
+  // Modal elements
+  const viewModal = document.getElementById("viewUsersModal");
+  const deleteModal = document.getElementById("deleteUserModal");
+  const searchModal = document.getElementById("searchUserModal");
+
+  const closeViewBtn = document.getElementById("closeViewUsers");
+  const closeDeleteBtn = document.getElementById("closeDeleteUser");
+  const closeSearchBtn = document.getElementById("closeSearchUser");
+
+  const viewUsersBtn = document.getElementById("view-users-btn");
+  const deleteUserBtn = document.getElementById("delete-user-btn");
+  const searchUserBtn = document.getElementById("search-user-btn");
+
+  const renderUsers = () => {
+    const container = document.getElementById("users-container");
+    container.innerHTML = users
+      .map(
+        (u) => `
+      <div class="file-card">
+        <p><strong>ID:</strong> ${u.id}</p>
+        <p><strong>Name:</strong> ${u.name}</p>
+        <p><strong>Username:</strong> ${u.username}</p>
+        <p><strong>Email:</strong> ${u.email}</p>
+        <p><strong>Uploads:</strong> ${u.uploads} | <strong>Downloads:</strong> ${u.downloads}</p>
+      </div>`
+      )
+      .join("");
+  };
+
+  // ===== View All Users =====
+  viewUsersBtn.addEventListener("click", () => {
+    renderUsers();
+    viewModal.classList.add("active");
+    adminDashboard.classList.add("blur");
+  });
+  closeViewBtn.addEventListener("click", () => {
+    viewModal.classList.remove("active");
+    adminDashboard.classList.remove("blur");
+  });
+
+  // ===== Delete User =====
+  deleteUserBtn.addEventListener("click", () => {
+    document.getElementById("deleteUserName").value = "";
+    document.getElementById("deleteUserMsg").textContent = "";
+    deleteModal.classList.add("active");
+    adminDashboard.classList.add("blur");
+  });
+  closeDeleteBtn.addEventListener("click", () => {
+    deleteModal.classList.remove("active");
+    adminDashboard.classList.remove("blur");
+  });
+  document.getElementById("deleteUserConfirm").addEventListener("click", () => {
+    const input = document
+      .getElementById("deleteUserName")
+      .value.trim()
+      .toLowerCase();
+    const msg = document.getElementById("deleteUserMsg");
+
+    let index = users.findIndex(
+      (u) =>
+        u.id.toString() === input ||
+        u.name.toLowerCase() === input ||
+        u.username.toLowerCase() === input
+    );
+    if (index !== -1) {
+      msg.textContent = `✅ User "${users[index].name}" deleted successfully!`;
+      users.splice(index, 1);
+      updateStats();
+      renderUsers(); // Update view modal immediately
+    } else {
+      msg.textContent = "❌ User not found.";
     }
-  }
+  });
 
-  await loadOverview();
+  // ===== Search User =====
+  searchUserBtn.addEventListener("click", () => {
+    document.getElementById("searchUserName").value = "";
+    const searchMsg = document.getElementById("searchUserMsg");
+    searchMsg.textContent = "";
+    searchModal.classList.add("active");
+    adminDashboard.classList.add("blur");
+  });
 
-  // --- LOGOUT ---
-  if (adminLogout) {
-    adminLogout.addEventListener("click", () => {
-      adminDashboard.style.display = "none";
-      homeSection.style.display = "block";
-    });
-  }
+  closeSearchBtn.addEventListener("click", () => {
+    searchModal.classList.remove("active");
+    adminDashboard.classList.remove("blur");
+  });
 
-  // --- VIEW ALL USERS ---
-  document
-    .querySelector(".footer-btn:nth-child(1)")
-    .addEventListener("click", async () => {
-      try {
-        const res = await fetch("/api/admin/users");
-        const users = await res.json();
-        let message = "📋 All Users:\n\n";
-        users.forEach((u) => (message += `🧑 ${u.full_name} (${u.email})\n`));
-        alert(message);
-      } catch (err) {
-        alert("Error fetching users.");
-        console.error(err);
-      }
-    });
+  document.getElementById("searchUserConfirm").addEventListener("click", () => {
+    const search = document
+      .getElementById("searchUserName")
+      .value.trim()
+      .toLowerCase();
+    const searchMsg = document.getElementById("searchUserMsg");
 
-  // --- DELETE USER ---
-  document
-    .querySelector(".footer-btn:nth-child(2)")
-    .addEventListener("click", async () => {
-      const userId = prompt("Enter User ID to delete:");
-      if (!userId) return;
-      try {
-        const res = await fetch(`/api/admin/users/${userId}`, {
-          method: "DELETE",
-        });
-        const result = await res.json();
-        alert(result.message || result.error);
-        loadOverview(); // refresh counts
-      } catch (err) {
-        alert("Error deleting user.");
-        console.error(err);
-      }
-    });
+    const result = users.find(
+      (u) =>
+        u.id.toString() === search ||
+        u.name.toLowerCase() === search ||
+        u.username.toLowerCase() === search
+    );
 
-  // --- SEARCH USER ---
-  document
-    .querySelector(".footer-btn:nth-child(3)")
-    .addEventListener("click", async () => {
-      const query = prompt("Enter username or email to search:");
-      if (!query) return;
-      try {
-        const res = await fetch(`/api/admin/users/search/${query}`);
-        const users = await res.json();
-        if (users.length > 0) {
-          let msg = "✅ Users Found:\n\n";
-          users.forEach((u) => (msg += `🧑 ${u.full_name} (${u.email})\n`));
-          alert(msg);
-        } else {
-          alert("❌ No user found.");
-        }
-      } catch (err) {
-        alert("Error searching user.");
-        console.error(err);
-      }
-    });
+    if (result) {
+      // Show full user info in a card (like View All Users)
+      searchMsg.innerHTML = `
+      <div class="file-card">
+        <p><strong>ID:</strong> ${result.id}</p>
+        <p><strong>Name:</strong> ${result.name}</p>
+        <p><strong>Username:</strong> ${result.username}</p>
+        <p><strong>Email:</strong> ${result.email}</p>
+        <p><strong>Uploads:</strong> ${result.uploads} | <strong>Downloads:</strong> ${result.downloads}</p>
+      </div>
+      `;
+    } else {
+      searchMsg.textContent = "❌ No user found.";
+    }
+  });
 
-  // --- PENDING UPLOADS ---
-  document
-    .querySelector(".footer-btn:nth-child(4)")
-    .addEventListener("click", async () => {
-      try {
-        const res = await fetch("/api/admin/uploads/pending");
-        const uploads = await res.json();
-        if (uploads.length === 0) return alert("No pending uploads.");
-        let msg = "⏳ Pending Uploads:\n\n";
-        uploads.forEach(
-          (u) => (msg += `📄 ${u.title} by User ID ${u.user_id}\n`)
-        );
-        alert(msg);
-      } catch (err) {
-        alert("Error fetching pending uploads.");
-        console.error(err);
-      }
-    });
+  // ===== Logout =====
+  document.getElementById("admin-logout").addEventListener("click", () => {
+    // Hide dashboard
+    adminDashboard.style.display = "none";
+    adminLogin.style.display = "block";
+  });
 });

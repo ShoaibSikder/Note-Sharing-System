@@ -109,7 +109,7 @@
     <div class="container">
       <div class="left-panel">
         <div class="notification">
-          <p><strong>Student login</strong><br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit
+          <p><strong>Student Registration</strong><br />Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem sit
             magni, accusantium doloremque cupiditate quisquam!</p>
         </div>
         <div class="img">
@@ -147,45 +147,42 @@
     </div>
   </section>
 
-  <!-- admin dashboard -->
-  <section class="admin-dashboard-section" id="admin-dashboard">
+  <!-- Admin Dashboard -->
+  <section class="admin-dashboard" id="admin-dashboard">
+  
     <!-- Top Bar -->
     <div class="top-bar">
       <div class="logo">📚 NoteSharingSystem (Admin)</div>
-      <div class="admin-info">
-        <button id="admin-logout">
-          <span>Welcome, Admin</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- Dashboard Overview -->
-    <section class="admin-overview">
-      <h2>📊 Dashboard Overview</h2>
-      <div class="overview-cards">
-        <div class="card">
-          <h3>📁 Total Uploads</h3>
-          <p id="total-uploads">0</p>
-        </div>
-        <div class="card">
-          <h3>⬇️ Total Downloads</h3>
-          <p id="total-downloads">0</p>
-        </div>
-        <div class="card">
-          <h3>✅ Approvals</h3>
-          <p id="total-approvals">0</p>
+      <div class="admin-menu">
+        <button class="admin-btn" id="admin-btn">Welcome, Admin ▼</button>
+        <div class="admin-dropdown">
+          <a href="#" id="profile-link">Profile Details</a>
+          <a href="#" id="admin-logout">Logout</a>
         </div>
       </div>
-    </section>
-
-    <!-- Footer Action Buttons -->
-    <div class="admin-footer">
-      <button class="footer-btn">👁️ View All Users</button>
-      <button class="footer-btn">🗑️ Delete User</button>
-      <button class="footer-btn">🔍 Search User</button>
     </div>
+  
+    <!-- Overview Boxes -->
+    <div class="overview">
+      <div class="overview-box">
+        <p>📁 Total Uploads</p>
+        <h2 id="total-uploads">0</h2>
+      </div>
+      <div class="overview-box">
+        <p>⬇️ Total Downloads</p>
+        <h2 id="total-downloads">0</h2>
+      </div>
+    </div>
+  
+    <!-- Admin Actions -->
+    <div class="dashboard-actions">
+      <button id="view-users-btn">👁️ View All Users</button>
+      <button id="delete-user-btn">🗑️ Delete User</button>
+      <button id="search-user-btn">🔍 Search User</button>
+    </div>
+  
   </section>
-
+  
   <!-- View Users Modal -->
   <div id="viewUsersModal" class="modal-overlay">
     <div class="modal-content">
@@ -194,7 +191,7 @@
       <div id="users-container" class="file-grid"></div>
     </div>
   </div>
-
+  
   <!-- Delete User Modal -->
   <div id="deleteUserModal" class="modal-overlay">
     <div class="modal-content">
@@ -205,7 +202,7 @@
       <p id="deleteUserMsg" style="margin-top:10px;"></p>
     </div>
   </div>
-
+  
   <!-- Search User Modal -->
   <div id="searchUserModal" class="modal-overlay">
     <div class="modal-content">

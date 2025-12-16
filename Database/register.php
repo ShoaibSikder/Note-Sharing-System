@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 header('Content-Type: application/json');
 
 require_once "db_connect.php";
+require_once "cipher.php";
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -11,13 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Get form data
 $fullname  = trim($_POST['fullname'] ?? '');
 $institute = trim($_POST['institute'] ?? '');
 $email     = trim($_POST['email'] ?? '');
 $password  = trim($_POST['password'] ?? '');
 
-// Validate
 if (!$fullname || !$institute || !$email || !$password) {
     http_response_code(400);
     echo json_encode(['code'=>400,'message'=>'All fields are required']);
@@ -30,11 +29,12 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Check if email exists
+// Check if already exists
 $stmt = $conn->prepare("SELECT id FROM users WHERE email=?");
-$stmt->bind_param("s",$email);
+$stmt->bind_param("s", $email);
 $stmt->execute();
 $stmt->store_result();
+
 if ($stmt->num_rows > 0) {
     http_response_code(409);
     echo json_encode(['code'=>409,'message'=>'Email already registered']);
@@ -42,12 +42,15 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// Hash password
-$hash = password_hash($password,PASSWORD_DEFAULT);
+// Encrypt password with Caesar Cipher
+$encrypted_pass = caesar_encrypt($password, 5);
+
+// Hash the Caesar result
+$hash = password_hash($encrypted_pass, PASSWORD_DEFAULT);
 
 // Insert user
-$stmt = $conn->prepare("INSERT INTO users (fullname,institute,email,password) VALUES (?,?,?,?)");
-$stmt->bind_param("ssss",$fullname,$institute,$email,$hash);
+$stmt = $conn->prepare("INSERT INTO users (fullname, institute, email, password) VALUES (?,?,?,?)");
+$stmt->bind_param("ssss", $fullname, $institute, $email, $hash);
 
 if ($stmt->execute()) {
     http_response_code(200);
